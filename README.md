@@ -18,8 +18,8 @@ FDTDW is a Python-based 3D FDTD solver built on **NVIDIA Warp**. It is designed 
 
 ### Installation
 
-\`\`\`bash
+```bash
 git clone https://github.com/xvr0/FDTDW
 cd FDTDW
 pip install .
-\`\`\`
+```
