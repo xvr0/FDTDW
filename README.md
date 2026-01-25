@@ -5,8 +5,8 @@
 FDTDW is a Python-based 3D FDTD solver built on **NVIDIA Warp**. It is designed for the sensitivity analysis of RF components using the adjoint method, enabling gradient-based topology optimization.
 
 ### Capabilities
-* **GPU Acceleration:** JIT compilation to CUDA kernels with CUDA Graph support for minimal CPU overhead.
-* **Adjoint Sensitivity:** Computes gradients for both **permittivity ($\varepsilon$)** and **magnetic permeability ($\mu$)**.
+* **GPU Acceleration:** JIT compilation to custom CUDA kernels.
+* **Adjoint Sensitivity:** Computes gradients of FOM w.r.t. **permittivity ($\varepsilon$)** and **magnetic permeability ($\mu$)**.
 * **Materials:** Supports Perfect Electrical/Magnetic Conductors (PEC/PMC) and linear, diagonal-anisotropic media.
 * **Boundaries:** Convolutional Perfectly Matched Layers (CPML) for absorption.
 * **DTFT-Analysis:** Detectors and Sources with DFT-Capabilities.
