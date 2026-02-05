@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import sys
-
+from matplotlib.ticker import ScalarFormatter
 def plot_benchmark(filename="results.csv"):
     data = {}
 
@@ -32,14 +32,16 @@ def plot_benchmark(filename="results.csv"):
         points.sort(key=lambda x: x[0])
         
         N_list = [p[0] for p in points]
-        norm_time_list = [p[1] / (p[0]**3) / timesteps for p in points]
+        norm_time_list = [p[1] / (p[0]**3) / timesteps * 10e9 for p in points]
 
-        if "pml" in kernel or "warp" in kernel:
+        if "pml" in kernel or "warp" in kernel or "split_approx" in kernel:
             current_linestyle = '-' 
         else:
             current_linestyle = ':'
 
-        if "fdtdx" in kernel:
+        if "approx" in kernel:
+            current_color = 'gold'       
+        elif "fdtdx" in kernel:
             current_color = 'tab:red'
         elif "meep" in kernel:
             current_color = 'tab:blue'
@@ -60,15 +62,22 @@ def plot_benchmark(filename="results.csv"):
         )
 
     plt.yscale('log')
-    plt.xlabel("Grid Size ($N$)")
-    plt.ylabel(r"Normalized Time ($t / N^3$)")
-    plt.title("FDTD Performance Scaling")
-    plt.legend(title="Kernel")
+    plt.xscale('log')
+    plt.xlabel("($N$)")
+    plt.ylabel(r"$t / N^3 $ [ns]")
+    plt.legend()
+    custom_ticks = [40, 60, 100, 200, 400]
     
+    plt.xticks(custom_ticks, [str(t) for t in custom_ticks])
+    
+    # plt.minorticks_off() 
+
+    # 4. Remove the "10^2" scientific notation offset if it appears
+    plt.gca().xaxis.set_major_formatter(ScalarFormatter())   
     plt.grid(True, which="both", ls="-", alpha=0.4, linewidth=0.5)
     plt.tight_layout()
     
-    output_file = "benchmark_plot.png"
+    output_file = "benchmark.png"
     plt.savefig(output_file, dpi=300)
     print(f"Plot saved to {output_file}")
     plt.show()
