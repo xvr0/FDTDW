@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import sys
+import numpy as np
 from matplotlib.ticker import ScalarFormatter
+
 def plot_benchmark(filename="results.csv"):
     data = {}
 
@@ -24,7 +26,7 @@ def plot_benchmark(filename="results.csv"):
         print(f"File {filename} not found.")
         return
 
-    plt.figure(figsize=(10, 6))
+    fig, ax1 = plt.subplots(figsize=(10, 6))
     
     timesteps = 2000
 
@@ -50,7 +52,7 @@ def plot_benchmark(filename="results.csv"):
         else:
             current_color = 'limegreen'
 
-        plt.plot(
+        ax1.plot(
             N_list, 
             norm_time_list, 
             linestyle=current_linestyle, 
@@ -61,20 +63,35 @@ def plot_benchmark(filename="results.csv"):
             linewidth=1.0   
         )
 
-    plt.yscale('log')
-    plt.xscale('log')
-    plt.xlabel("($N$)")
-    plt.ylabel(r"$t / N^3 $ [ns]")
-    plt.legend()
+    ax1.set_yscale('log')
+    ax1.set_xscale('log')
+    ax1.set_xlabel("$N$")
+    ax1.set_ylabel(r"$t / N^3 $ [ns]")
+    
     custom_ticks = [40, 60, 100, 200, 400]
+    ax1.set_xticks(custom_ticks)
+    ax1.set_xticklabels([str(t) for t in custom_ticks])
+    ax1.xaxis.set_major_formatter(ScalarFormatter())   
     
-    plt.xticks(custom_ticks, [str(t) for t in custom_ticks])
+    ax2 = ax1.twiny()     
+    ax2.set_xscale('log')
+    ax2.set_xlim(ax1.get_xlim())
     
-    # plt.minorticks_off() 
+    ax2.set_xticks(custom_ticks)
+    
+    def calculate_pml_frac(n):
+        thickness = 20
+        if n <= 2 * thickness:
+            return 1.0 
+        return 1.0 - ((n-40)**3 / n**3)
 
-    # 4. Remove the "10^2" scientific notation offset if it appears
-    plt.gca().xaxis.set_major_formatter(ScalarFormatter())   
-    plt.grid(True, which="both", ls="-", alpha=0.4, linewidth=0.5)
+    tick_labels = [f"{calculate_pml_frac(n)*100:.0f}%" for n in custom_ticks]
+    ax2.set_xticklabels(tick_labels)
+    
+    ax2.set_xlabel(r"$V_{pml}/V$")
+    
+    ax1.legend()
+    ax1.grid(True, which="both", ls="-", alpha=0.4, linewidth=0.5)
     plt.tight_layout()
     
     output_file = "benchmark.png"
