@@ -146,12 +146,12 @@ def plot_benchmark(filename="results.csv"):
     
     handles, labels = ax1.get_legend_handles_labels()
     by_label = dict(zip(labels, handles))
-    ax1.legend(by_label.values(), by_label.keys(), loc='center right', fontsize='small')
+    # ax1.legend(by_label.values(), by_label.keys(), loc='center right', fontsize='small')
     
     ax1.grid(True, which="both", ls="-", alpha=0.4, linewidth=0.5)
     plt.tight_layout()
     
-    output_file = "benchmark.png"
+    output_file = "benchmark_.png"
     plt.savefig(output_file, dpi=300)
     print(f"Plot saved to {output_file}")
     plt.show()
