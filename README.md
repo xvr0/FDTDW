@@ -23,3 +23,7 @@ git clone https://github.com/xvr0/FDTDW
 cd FDTDW
 pip install .
 ```
+
+### Performance
+Time spent per update step and cell for various forward solvers ([Test Scripts](examples/benchmark) run on NVIDIA GTX 4070 Ti Super and Intel i7-14700F for 2000 timesteps).
+![Alt Text](examples/benchmark/benchmark.png)
