@@ -51,7 +51,7 @@ class AdjointSimulation(BaseSimulation):
             "zmin": "PML",
             "zmax": "PML",
         },
-        kernel: str = "warp",
+        kernel: str = "warp_iso",
     ):
 
         super().__init__(

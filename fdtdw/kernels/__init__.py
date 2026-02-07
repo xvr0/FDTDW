@@ -50,6 +50,7 @@ from .structs32 import (
     Properties,
 )
 from .update32 import update_h, update_e
+from .updateiso32 import updateiso_h, updateiso_e
 from .updateyee32 import update_yee_h, update_yee_e
 from .updatepml32 import update_pml_h, update_pml_e
 from .utils32 import (
@@ -114,6 +115,8 @@ __all__ = [
     "Properties",
     "update_h",
     "update_e",
+    "updateiso_e",
+    "updateiso_h",
     "update_yee_h",
     "update_yee_e",
     "update_pml_h",

@@ -39,7 +39,7 @@ class ReferenceSimulation(BaseSimulation):
             "zmin": "PML",
             "zmax": "PML",
         },
-        kernel: str = "warp",
+        kernel: str = "warp_iso",
     ):
         super().__init__(
             STEPS, NX, NY, NZ, S, PML_THICKNESS, dx, eta, R_0, DEVICE, boundaries,kernel=kernel
