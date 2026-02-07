@@ -39,13 +39,11 @@ def plot_benchmark(filename="results.csv"):
 
     c_yee = 'limegreen'     
     c_pml = 'darkgreen'     
-    c_warp = 'forestgreen'  # Medium Green (Measured Warp)
-    c_split = 'gold'        # Yellow (Model)
-
+    c_warp = 'forestgreen'  
+    c_split = 'gold'        
+    
     plot_defs = [
-        ('yee', 'yee_isotrop_approx', c_yee, 'Yee (Core)', ':'),
-        ('pml', 'pml_isotrop_approx', c_pml, 'PML (Boundary)', ':'), 
-        ('split_approx', 'split_isotrop_approx', c_split, 'Split Model', '-'),
+        ('FDTDW(anisotrop)', 'FDTDW(isotrop)', c_warp, 'FDTDW(anisotrop)', '-'),
     ]
 
     plotted_kernels = set()
@@ -72,45 +70,57 @@ def plot_benchmark(filename="results.csv"):
                     t_iso_common = np.array([iso_dict[n] for n in common_Ns])
                     
                     ax1.fill_between(common_Ns, t_base_common, t_iso_common, 
-                                     color=color, alpha=0.3, linewidth=0, zorder=1)
+                                     color=color, alpha=0.7, linewidth=0, zorder=1)
+                
+                ax1.plot(n_iso, t_iso, linestyle="--", color=color, 
+                         label='FDTDW (isotrop)',   
+                         marker='o',           
+                         markersize=3,         
+                         linewidth=1.0, alpha=0.8, zorder=2)
 
             ax1.plot(n_base, t_base, linestyle=final_style, color=color, 
                      label=label, marker='o', markersize=3, linewidth=1.5, zorder=3)
 
     for kernel in data.keys():
         if kernel in plotted_kernels: continue
-        if "isotrop" in kernel: continue 
-        if "split_approx_real" in kernel: continue
+        # if "isotrop" in kernel: continue 
+        # if "split_approx_real" in kernel: continue
         
         n_k, t_k = get_vectors(kernel)
         
-        ls = ':'
+        ls = '-'
         mk = 'o'
         c = 'grey'
         zo = 4 
         
-        if "fdtdx" in kernel: 
+        if "FDTDX" in kernel: 
             c = 'tab:red'       
-            ls = '-' if "pml" in kernel else ':'
+            ls = ':' if "periodic" in kernel else '-'
             
-        elif "meep" in kernel: 
+        elif "MEEP" in kernel: 
             c = 'tab:blue'      
-            ls = '-' if "pml" in kernel else ':'
+            ls = ':' if "no PML" in kernel else '-'
             
+        elif "approx" in kernel:
+            c = c_split         
+            ls = '-'
         elif "warp" in kernel:
             c = c_warp          
             ls = '-'
-        
-        elif "pml" in kernel and kernel == "pml": 
+        elif "no PML" in kernel:
+            c = c_yee         
+            ls = ':'       
+        elif "all PML" in kernel : 
              c = c_pml
              ls = '-'
              
         ax1.plot(n_k, t_k, linestyle=ls, color=c, label=kernel, 
                  marker=mk, markersize=3, zorder=zo)
 
+    # --- Formatting ---
     ax1.set_yscale('log')
     ax1.set_xscale('log')
-    ax1.set_xlabel("Grid Size ($N$)")
+    ax1.set_xlabel(r"$N_x=N_y=N_z$")
     ax1.set_ylabel(r"$t / N^3 $ [ns]")
     
     custom_ticks = [40, 60, 100, 200, 400]
@@ -132,7 +142,7 @@ def plot_benchmark(filename="results.csv"):
         return 1.0 - (vol_inner / vol_total)
 
     ax2.set_xticklabels([f"{calculate_pml_frac(n)*100:.0f}%" for n in custom_ticks])
-    ax2.set_xlabel("PML Volume Fraction (%)")
+    ax2.set_xlabel(r"$V_{pml}/V$")
     
     handles, labels = ax1.get_legend_handles_labels()
     by_label = dict(zip(labels, handles))

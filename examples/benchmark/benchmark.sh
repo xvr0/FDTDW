@@ -1,8 +1,8 @@
 #!/bin/bash
-OUTPUT_FILE="results.csv"
+OUTPUT_FILE="results_fdtdw_iso.csv"
 echo "Kernel,N,time" > "$OUTPUT_FILE"
 
-KERNELS=("warp" "pml" "yee")
+KERNELS=("warp_iso") #("warp" "pml" "yee" "warp_iso")
 SIZES=($(seq 40 8 128) $(seq 160 32 448))
 
 for kernel in "${KERNELS[@]}"; do
