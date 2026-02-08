@@ -14,7 +14,6 @@ FDTDW is a Python-based 3D FDTD solver built on **NVIDIA Warp**. It is designed 
 ### Limitations
 * **Linear and Non-Dispersive:** No support for non-linear and dispersive material models.
 * **Manual Gradients:** Does not provide VJP wrappers.
-* **Physics based Continuous Differentiation** No real "Discretize-then-Differentiate"-Methode. 
 
 ### Installation
 
