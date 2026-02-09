@@ -82,7 +82,7 @@ class BaseSimulation(ABC):
             "zmin": "PML",
             "zmax": "PML",
         },
-        kernel: str = "warp_iso"
+        kernel: str = "warp"
     ):
         self._STEPS = STEPS
         self._NX = NX

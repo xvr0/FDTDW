@@ -40,7 +40,7 @@ class AdjointCpSimulation(AdjointSimulation):
             "zmin": "PML",
             "zmax": "PML",
         },
-        kernel: str = "warp_iso",
+        kernel: str = "warp",
     ):
         if STEPS == -1:
             STEPS = BUFFERSIZE * CHECKPOINTS

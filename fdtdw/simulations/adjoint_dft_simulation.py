@@ -41,7 +41,7 @@ class AdjointDftSimulation(AdjointSimulation):
             "zmin": "PML",
             "zmax": "PML",
         },
-        kernel: str = "warp_iso",
+        kernel: str = "warp",
     ):
 
         self._freqs = wp.array(FREQUENCIES, dtype=wp.float32, device=DEVICE)
